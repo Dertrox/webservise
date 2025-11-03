@@ -4,35 +4,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bienestar • Obesidad</title>
+  <meta name="description" content="Página educativa e interactiva sobre obesidad: videos, respiración 4-7-8, calculadoras, registro de peso y cuestionario de bienestar." />
   <meta name="color-scheme" content="light dark" />
-  <!-- Favicon embebido (evita 404) -->
+  <meta property="og:title" content="Bienestar • Obesidad" />
+  <meta property="og:description" content="Herramientas prácticas y apoyo emocional para el manejo de la obesidad." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop stop-color='%23fb7185'/%3E%3Cstop stop-color='%23fde68a' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='44' fill='url(%23g)'/%3E%3C/svg%3E">
 
-  <!-- Tailwind (CDN) -->
+  <!-- CDN libs -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js para el gráfico de peso -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Lottie (opcional, no rompe si no carga) -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <style>
-    html,body{height:100%}
+    html,body{height:100%;scroll-behavior:smooth}
     ::selection{background:#fb7185;color:#fff}
     .bg-soft{
       background: radial-gradient(1200px 600px at 10% 0%, #ffe4e6 0, transparent 60%),
                   radial-gradient(900px 500px at 90% 10%, #fde68a 0, transparent 60%),
                   radial-gradient(900px 500px at 50% 100%, #e0e7ff 0, transparent 60%),
                   #fff1f2;
-      animation: drift 15s ease-in-out infinite alternate;
+      animation: drift 16s ease-in-out infinite alternate;
     }
-    @keyframes drift{from{background-position:0 0,0 0,0 0}to{background-position:20px -30px,-30px -10px,30px 40px}}
+    @keyframes drift{from{background-position:0 0,0 0,0 0}to{background-position:24px -34px,-30px -12px,30px 40px}}
+    @media (prefers-reduced-motion:reduce){.bg-soft{animation:none}}
+    /* Pills y activos */
+    .pill{border:1px solid rgb(229 231 235);border-radius:9999px;padding:.25rem .75rem;background:rgba(255,255,255,.7)}
+    .dark .pill{border-color:rgb(64 64 64);background:rgba(23,23,23,.6)}
+    .item-active{border-color:#f43f5e!important;background:linear-gradient(0deg,rgba(244,63,94,.06),rgba(244,63,94,.06))}
+    /* Player */
+    #vSeek{accent-color:#f43f5e}
     /* Respiración */
     #breathBall{transition:transform .8s ease-in-out}
-    /* Botones pill */
-    .pill{border:1px solid rgb(229 231 235); border-radius:9999px; padding:.25rem .75rem; background:rgba(255,255,255,.7)}
-    .dark .pill{border-color:rgb(64 64 64); background:rgba(23,23,23,.6)}
-    /* Playlist */
-    .item-active{border-color:#f43f5e!important}
+    /* Mini barras */
+    .mini-bar{height:6px;border-radius:9999px;background:rgba(0,0,0,.06)}
+    .dark .mini-bar{background:rgba(255,255,255,.08)}
+    .mini-fill{height:100%;border-radius:9999px;background:#f43f5e}
+    /* Botón flotante */
+    .fab{position:fixed;right:16px;bottom:16px}
   </style>
 </head>
 <body class="antialiased">
@@ -40,7 +48,7 @@
   <audio id="ambAudio" src="https://cdn.pixabay.com/download/audio/2021/09/16/audio_0b4d2f88f6.mp3?filename=forest-birds-ambient-116199.mp3" loop preload="none"></audio>
 
   <div class="min-h-screen bg-soft dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 p-5 md:p-10">
-    <div class="mx-auto max-w-6xl space-y-6">
+    <div class="mx-auto max-w-6xl space-y-6" id="top">
 
       <!-- Topbar -->
       <div class="flex items-center justify-between">
@@ -56,7 +64,7 @@
       </div>
 
       <!-- HERO -->
-      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 backdrop-blur border border-neutral-200 dark:border-neutral-800 shadow-sm p-6 md:p-10">
+      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 backdrop-blur border border-neutral-200 dark:border-neutral-800 shadow-lg p-6 md:p-10">
         <div class="grid grid-cols-1 gap-6 md:grid-cols-5">
           <div class="md:col-span-3">
             <h1 class="text-4xl md:text-5xl font-serif leading-tight">El primer paso<br>hacia tu bienestar</h1>
@@ -78,22 +86,22 @@
 
       <!-- Objetivo / Datos / Apoyo -->
       <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
           <h2 class="text-2xl font-semibold">Objetivo</h2>
           <p class="mt-3 text-neutral-700 dark:text-neutral-300">Promover bienestar integral y prevenir complicaciones con educación clara y apoyo psicológico.</p>
         </div>
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
           <h2 class="text-2xl font-semibold">Datos epidemiológicos</h2>
           <p class="mt-3 text-neutral-700 dark:text-neutral-300">La obesidad es frecuente y aumenta el riesgo de DM2, HTA y SAHOS. El entorno importa.</p>
         </div>
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
           <h2 class="text-2xl font-semibold">Apoyo psicológico</h2>
           <p class="mt-3 text-neutral-700 dark:text-neutral-300">Manejo de hambre emocional, autocrítica y prevención de recaídas con metas pequeñas.</p>
         </div>
       </div>
 
       <!-- Calculadoras -->
-      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="md:col-span-2">
             <h3 class="text-2xl font-semibold">Calculadora de IMC</h3>
@@ -135,7 +143,7 @@
       </div>
 
       <!-- Respiración -->
-      <div id="respira" class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+      <div id="respira" class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           <div class="md:col-span-2">
             <h3 class="text-2xl font-semibold">Respiración 4–7–8</h3>
@@ -162,7 +170,7 @@
       </div>
 
       <!-- Pasos -->
-      <div id="pasos" class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+      <div id="pasos" class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
         <div class="flex items-center justify-between">
           <h3 class="text-2xl font-semibold">Cómo empezar tu tratamiento</h3>
           <div class="flex gap-2">
@@ -184,7 +192,7 @@
       </div>
 
       <!-- Videos + Cuestionario -->
-      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6">
+      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 shadow">
         <h3 class="text-2xl font-semibold">Videos educativos</h3>
         <p class="text-sm text-neutral-600 dark:text-neutral-400">Mira los videos y luego responde el cuestionario de bienestar.</p>
 
@@ -193,7 +201,9 @@
             <div class="relative overflow-hidden rounded-2xl border">
               <video id="mainVideo" controls playsinline preload="metadata" class="w-full aspect-video bg-black"></video>
             </div>
-            <div class="mt-2 flex flex-wrap gap-2 text-sm">
+            <div class="mt-2 flex items-center gap-3 text-sm">
+              <span id="vTime" class="text-neutral-600 dark:text-neutral-400 select-none">0:00 / 0:00</span>
+              <input id="vSeek" type="range" min="0" max="100" value="0" class="flex-1"/>
               <a id="dlLink" class="rounded-full border px-3 py-1 hover:bg-rose-50 dark:hover:bg-neutral-900" href="#" download>⬇️ Descargar</a>
               <button id="fsBtn" class="rounded-full border px-3 py-1 hover:bg-rose-50 dark:hover:bg-neutral-900">⛶ Pantalla completa</button>
             </div>
@@ -208,6 +218,7 @@
           <div id="quizBox" class="hidden mt-3">
             <h4 class="text-xl font-semibold">Cuestionario breve de bienestar emocional</h4>
             <p class="text-sm text-neutral-600 dark:text-neutral-400">Últimas 2 semanas (0 Nunca · 1 A veces · 2 Frecuentemente · 3 Casi siempre)</p>
+            <div class="mt-2 mini-bar"><div id="quizProg" class="mini-fill" style="width:0%"></div></div>
             <div id="quizList" class="mt-3 space-y-3"></div>
             <div class="mt-4 flex items-center gap-3">
               <span id="quizResult" class="inline-flex items-center rounded-full px-3 py-1 text-sm bg-gray-100 text-gray-800">Resultado: 0 / 24 • nivel bajo</span>
@@ -220,7 +231,7 @@
 
       <!-- Registro de peso + hábitos -->
       <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-2">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-2 shadow">
           <h3 class="text-2xl font-semibold">Registro de peso</h3>
           <div class="mt-3 flex flex-wrap items-end gap-3">
             <label class="text-sm">Fecha
@@ -232,18 +243,20 @@
             <button id="wAdd" class="rounded-xl border px-4 py-2 hover:bg-rose-50 dark:hover:bg-neutral-900">Agregar</button>
           </div>
           <div class="mt-4">
-            <canvas id="wChart" height="240"></canvas>
+            <canvas id="wChart" height="240" aria-label="Gráfico de peso"></canvas>
           </div>
         </div>
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-1">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-1 shadow">
           <h3 class="text-2xl font-semibold">Plan de hábitos (semana)</h3>
+          <div id="habitsMeta" class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">0% completado</div>
+          <div class="mt-2 mini-bar"><div id="habitsFill" class="mini-fill" style="width:0%"></div></div>
           <div id="habitsGrid" class="mt-3 grid grid-cols-8 gap-2 text-xs"></div>
         </div>
       </div>
 
       <!-- FAQ / Contacto -->
       <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-2">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-2 shadow">
           <h3 class="text-2xl font-semibold">Preguntas frecuentes</h3>
           <details class="mt-3 group">
             <summary class="cursor-pointer select-none rounded-xl border px-4 py-2 group-open:bg-rose-50 dark:group-open:bg-neutral-900">¿El IMC basta para evaluar salud?</summary>
@@ -254,7 +267,7 @@
             <p class="mt-2 px-4 text-sm text-neutral-700 dark:text-neutral-300">No de rutina. Prioriza alimentos reales, proteína y sueño.</p>
           </details>
         </div>
-        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-1">
+        <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-6 md:col-span-1 shadow">
           <h3 class="text-2xl font-semibold">Contacto</h3>
           <form class="mt-3 grid gap-2" onsubmit="event.preventDefault(); alert('¡Gracias! Te contactaremos pronto.');">
             <input class="rounded-xl border px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700" placeholder="Tu nombre" required />
@@ -265,23 +278,25 @@
         </div>
       </div>
 
-      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-4 text-center text-sm">
+      <div class="rounded-3xl bg-white/70 dark:bg-neutral-900/60 border p-4 text-center text-sm shadow">
         <p>Redes: 📧 contacto@bienestar.org · 📱 WhatsApp · 📸 Instagram · 🎥 TikTok</p>
         <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">Contenido informativo; no sustituye valoración profesional.</p>
       </div>
     </div>
   </div>
 
+  <!-- FAB volver arriba -->
+  <a href="#top" class="fab rounded-full bg-rose-500 text-white px-4 py-3 shadow-lg hover:bg-rose-600" aria-label="Volver arriba">↑</a>
+
   <script>
+    /* ---------- Utiles ---------- */
+    const LS = (k,v)=>v===undefined?JSON.parse(localStorage.getItem(k)||'null'):localStorage.setItem(k,JSON.stringify(v));
+
     /* ---------- Tema y audio ---------- */
     const themeBtn = document.getElementById('themeBtn');
     const peaceBtn = document.getElementById('peaceBtn');
     const vol = document.getElementById('vol');
     const amb = document.getElementById('ambAudio');
-
-    const LS = (k,v)=>v===undefined?JSON.parse(localStorage.getItem(k)||'null'):localStorage.setItem(k,JSON.stringify(v));
-
-    // Tema
     const savedDark = LS('dark') ?? false;
     document.documentElement.classList.toggle('dark', savedDark);
     themeBtn.textContent = savedDark ? '☾ Oscuro' : '☀️ Claro';
@@ -291,8 +306,6 @@
       themeBtn.textContent = now ? '☾ Oscuro' : '☀️ Claro';
       LS('dark', now);
     };
-
-    // Audio paz
     const savedPeace = LS('peace') ?? false;
     const savedVol = LS('vol') ?? 0.25;
     vol.value = savedVol; amb.volume = savedVol;
@@ -316,7 +329,6 @@
     const bmiTxt = document.getElementById('bmiTxt');
     const bmrEl = document.getElementById('bmr');
     const tdeeEl = document.getElementById('tdee');
-
     function updateCalcs(){
       const w = +kg.value || 0, h = +cm.value || 1, e = +edad.value || 0;
       const m = h/100, bmi = w/(m*m);
@@ -367,23 +379,27 @@
 
     /* ---------- Videos + playlist ---------- */
     const videos = [
-      {src:'videos/la-obesidad.mp4?v=4', title:'La obesidad', desc:'Introducción general'},
-      {src:'videos/que-es-la-obesidad.mp4?v=4', title:'¿Qué es la obesidad?', desc:'Conceptos clave'},
-      {src:'videos/obesidad.mp4?v=4', title:'Obesidad (extra)', desc:'Recomendaciones'}
+      {src:'videos/la-obesidad.mp4?v=5', title:'La obesidad', desc:'Introducción general'},
+      {src:'videos/que-es-la-obesidad.mp4?v=5', title:'¿Qué es la obesidad?', desc:'Conceptos clave'},
+      {src:'videos/obesidad.mp4?v=5', title:'Obesidad (extra)', desc:'Recomendaciones'}
     ];
     const mainVideo = document.getElementById('mainVideo');
     const playlist = document.getElementById('playlist');
     const dlLink = document.getElementById('dlLink');
     const fsBtn = document.getElementById('fsBtn');
+    const vTime = document.getElementById('vTime');
+    const vSeek = document.getElementById('vSeek');
     let current = 0;
+    let watched = LS('watched') || [];
 
+    function fmtDur(sec){ if(!isFinite(sec)) return '--:--'; const m=Math.floor(sec/60), s=Math.round(sec%60); return `${m}:${s.toString().padStart(2,'0')}`; }
     function setVideo(i){
       current = i;
       mainVideo.src = videos[i].src;
       dlLink.href = videos[i].src;
       [...playlist.querySelectorAll('button')].forEach((b,idx)=> b.classList.toggle('item-active', idx===i));
+      vTime.textContent = '0:00 / 0:00'; vSeek.value = 0;
     }
-    function fmtDur(sec){ if(!isFinite(sec)) return '--:--'; const m=Math.floor(sec/60), s=Math.round(sec%60); return `${m}:${s.toString().padStart(2,'0')}`; }
 
     // Render playlist
     videos.forEach((v,idx)=>{
@@ -394,7 +410,7 @@
           <span class="font-medium">${v.title}</span>
           <span class="text-xs text-neutral-500" id="d${idx}">--:--</span>
         </div>
-        <p class="text-xs text-neutral-600 dark:text-neutral-400">${v.desc||''}</p>
+        <p class="text-xs text-neutral-600 dark:text-neutral-400 flex items-center gap-1">${v.desc||''} <span id="ok${idx}" class="ml-1 ${watched.includes(v.src)?'':'hidden'}">✓</span></p>
       `;
       btn.onclick = ()=> setVideo(idx);
       playlist.appendChild(btn);
@@ -411,9 +427,30 @@
     setVideo(0);
 
     fsBtn.onclick = ()=> mainVideo.requestFullscreen && mainVideo.requestFullscreen();
-    // Autoabrir cuestionario al terminar cualquiera
-    const openQuizBtn = document.getElementById('openQuiz');
-    mainVideo.addEventListener('ended', ()=> document.getElementById('quizBox').classList.remove('hidden'));
+
+    // Barra de tiempo + atajos
+    mainVideo.addEventListener('loadedmetadata', ()=>{
+      vTime.textContent = `0:00 / ${fmtDur(mainVideo.duration)}`;
+    });
+    mainVideo.addEventListener('timeupdate', ()=>{
+      vTime.textContent = `${fmtDur(mainVideo.currentTime)} / ${fmtDur(mainVideo.duration)}`;
+      vSeek.value = (mainVideo.currentTime / mainVideo.duration) * 100 || 0;
+    });
+    vSeek.addEventListener('input', (e)=>{
+      const pct = +e.target.value;
+      mainVideo.currentTime = (pct/100) * (mainVideo.duration||0);
+    });
+    document.addEventListener('keydown', (e)=>{
+      if (e.target.tagName.match(/INPUT|TEXTAREA|SELECT/)) return;
+      if (e.code === 'Space'){ e.preventDefault(); if (mainVideo.paused) mainVideo.play(); else mainVideo.pause(); }
+      if (e.code === 'ArrowRight'){ mainVideo.currentTime += 5; }
+      if (e.code === 'ArrowLeft'){ mainVideo.currentTime -= 5; }
+    });
+    mainVideo.addEventListener('ended', ()=>{
+      const src = videos[current].src;
+      if (!watched.includes(src)) { watched.push(src); LS('watched', watched); document.getElementById(`ok${current}`).classList.remove('hidden'); }
+      document.getElementById('quizBox').classList.remove('hidden');
+    });
 
     /* ---------- Quiz bienestar ---------- */
     const Qs = ["Poco interés o placer en hacer cosas","Sensación de tristeza o decaimiento","Dificultad para dormir o dormir en exceso","Cansancio o poca energía","Cambios en el apetito","Sentirse mal consigo mismo/a","Dificultad para concentrarse","Inquietud o ansiedad"];
@@ -422,10 +459,27 @@
     const quizRes = document.getElementById('quizResult');
     const quizAdvice = document.getElementById('quizAdvice');
     const quizReset = document.getElementById('quizReset');
-    openQuizBtn.onclick = ()=> quizBox.classList.toggle('hidden');
+    const quizProg = document.getElementById('quizProg');
+    document.getElementById('openQuiz').onclick = ()=> quizBox.classList.toggle('hidden');
 
     let answers = JSON.parse(localStorage.getItem('quiz-ans')||'[]');
     if (!answers.length) answers = Array(Qs.length).fill(0);
+
+    function updateQuiz(){
+      const score = answers.reduce((a,b)=>a+b,0);
+      let nivel='bajo', cls='bg-green-100 text-green-800';
+      if (score>7 && score<=15){ nivel='moderado'; cls='bg-amber-100 text-amber-800'; }
+      if (score>15){ nivel='alto'; cls='bg-rose-100 text-rose-800'; }
+      quizRes.className = `inline-flex items-center rounded-full px-3 py-1 text-sm ${cls}`;
+      quizRes.textContent = `Resultado: ${score} / 24 • nivel ${nivel}`;
+      quizAdvice.innerHTML = nivel==='bajo'
+        ? '💚 Bien: mantén rutinas saludables y apoyo social.'
+        : nivel==='moderado'
+        ? '👉 Suma respiración diaria, límites amables y consulta si los síntomas persisten.'
+        : '⚠️ Busca orientación profesional. Si hay ideas de hacerte daño o crisis, contacta servicios de emergencia o líneas de ayuda.';
+      const filled = answers.filter(v=>v>0).length;
+      quizProg.style.width = `${(filled/Qs.length)*100}%`;
+    }
 
     function renderQuiz(){
       quizList.innerHTML = '';
@@ -447,24 +501,13 @@
       });
       updateQuiz();
     }
-    function updateQuiz(){
-      const score = answers.reduce((a,b)=>a+b,0);
-      let nivel='bajo', cls='bg-green-100 text-green-800';
-      if (score>7 && score<=15){ nivel='moderado'; cls='bg-amber-100 text-amber-800'; }
-      if (score>15){ nivel='alto'; cls='bg-rose-100 text-rose-800'; }
-      quizRes.className = `inline-flex items-center rounded-full px-3 py-1 text-sm ${cls}`;
-      quizRes.textContent = `Resultado: ${score} / 24 • nivel ${nivel}`;
-      quizAdvice.innerHTML = nivel==='bajo'
-        ? '💚 Bien: mantén rutinas saludables y apoyo social.'
-        : nivel==='moderado'
-        ? '👉 Suma respiración diaria, límites amables y consulta si los síntomas persisten.'
-        : '⚠️ Busca orientación profesional. Si hay ideas de hacerte daño o crisis, contacta servicios de emergencia o líneas de ayuda.';
-    }
     quizReset.onclick = ()=>{ answers = Array(Qs.length).fill(0); localStorage.setItem('quiz-ans',JSON.stringify(answers)); renderQuiz(); };
     renderQuiz();
 
     /* ---------- Hábitos ---------- */
     const habitsGrid = document.getElementById('habitsGrid');
+    const habitsMeta = document.getElementById('habitsMeta');
+    const habitsFill = document.getElementById('habitsFill');
     const days = ['L','M','X','J','V','S','D'];
     let habits = JSON.parse(localStorage.getItem('habits')||'null') || [
       {id:'agua', name:'Agua (8 vasos)', week:Array(7).fill(false)},
@@ -475,10 +518,12 @@
     function saveHabits(){ localStorage.setItem('habits', JSON.stringify(habits)); }
     function renderHabits(){
       habitsGrid.innerHTML = '<div></div>'+days.map(d=>`<div class="text-center font-medium">${d}</div>`).join('');
+      let total=0, done=0;
       habits.forEach(h=>{
         const name = document.createElement('div'); name.textContent=h.name; name.className='truncate pr-2 text-sm';
         habitsGrid.appendChild(name);
         h.week.forEach((v,idx)=>{
+          total++; if (v) done++;
           const b = document.createElement('button');
           b.className = `aspect-square rounded-md border ${v?'bg-rose-500 text-white border-rose-500':'bg-white dark:bg-neutral-900'}`;
           b.textContent = v?'✓':'';
@@ -486,10 +531,13 @@
           habitsGrid.appendChild(b);
         });
       });
+      const pct = Math.round((done/total)*100)||0;
+      habitsMeta.textContent = `${pct}% completado`;
+      habitsFill.style.width = `${pct}%`;
     }
     renderHabits();
 
-    /* ---------- Peso + Chart ---------- */
+    /* ---------- Peso + Chart (gradiente) ---------- */
     const wDate = document.getElementById('wDate');
     const wVal = document.getElementById('wVal');
     const wAdd = document.getElementById('wAdd');
@@ -498,10 +546,27 @@
 
     let wData = JSON.parse(localStorage.getItem('weights')||'null') || [{date:today, weight:+kg.value}];
     const ctx = document.getElementById('wChart').getContext('2d');
+    function stroke(ctx){ const g = ctx.createLinearGradient(0,0,0,240); g.addColorStop(0,'#f43f5e'); g.addColorStop(1,'#fb7185'); return g; }
     let chart = new Chart(ctx, {
       type: 'line',
-      data: { labels: wData.map(p=>p.date), datasets: [{ label:'Peso (kg)', data:wData.map(p=>p.weight), borderWidth:2, tension:.3 }]},
-      options: { responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:false}} }
+      data: { 
+        labels: wData.map(p=>p.date), 
+        datasets: [{ 
+          label:'Peso (kg)', 
+          data:wData.map(p=>p.weight), 
+          borderWidth:2, 
+          tension:.35,
+          borderColor: stroke(ctx),
+          backgroundColor: 'rgba(244,63,94,.10)',
+          fill:true,
+          pointRadius:2,
+        }]
+      },
+      options: { 
+        responsive:true, 
+        plugins:{legend:{display:false}}, 
+        scales:{y:{beginAtZero:false, grid:{color:'rgba(0,0,0,.06)'}}, x:{grid:{display:false}}} 
+      }
     });
     function refreshChart(){
       chart.data.labels = wData.map(p=>p.date);
@@ -518,3 +583,4 @@
   </script>
 </body>
 </html>
+ 
