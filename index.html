@@ -325,11 +325,11 @@
     renderStep();
 
     /* Videos (nombres corregidos) */
-    const videos=[
-      {src:'videos/la-obesidad.mp4?v=10',        title:'La obesidad',         desc:'Introducción general'},
-      {src:'videos/que-es-la-obesidad.mp4?v=10', title:'¿Qué es la obesidad?', desc:'Conceptos clave'},
-      {src:'videos/obesidad.mp4?v=10',           title:'Obesidad (extra)',     desc:'Recomendaciones'}
-    ];
+    const videos = [
+  {src:'videos/la-obesidad.v2.mp4?v=1',        title:'La obesidad',         desc:'Introducción general'},
+  {src:'videos/que-es-la-obesidad.v2.mp4?v=1', title:'¿Qué es la obesidad?', desc:'Conceptos clave'},
+  {src:'videos/obesidad.mp4?v=1',              title:'Obesidad (extra)',     desc:'Recomendaciones'}
+];
     const mainVideo=document.getElementById('mainVideo'), mainSrc=document.getElementById('mainSrc');
     const playlist=document.getElementById('playlist'), dlLink=document.getElementById('dlLink'), fsBtn=document.getElementById('fsBtn'), vTime=document.getElementById('vTime'), vSeek=document.getElementById('vSeek');
     let current=0, watched=LS('watched')||[];
